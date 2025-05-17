@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Auto Reviews</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2a3d66;
+            --secondary: #d4b483;
+            --accent: #c1666b;
+            --light: #f8f5f2;
+            --dark: #1e1e24;
+            --success: #4c956c;
+            --border-radius: 12px;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.7;
+            color: var(--dark);
+            background-color: var(--light);
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), #1a2a4a);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow);
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--secondary), #f3d9b1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Review Form */
+        .review-form-container {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            transition: var(--transition);
+        }
+
+        .review-form-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.8rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--primary);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(212, 180, 131, 0.2);
+        }
+
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* Star Rating */
+        .rating-container {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+        }
+
+        .rating-container input {
+            display: none;
+        }
+
+        .rating-container label {
+            font-size: 2rem;
+            color: #e0e0e0;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 0 0.2rem;
+        }
+
+        .rating-container input:checked ~ label,
+        .rating-container label:hover,
+        .rating-container label:hover ~ label {
+            color: var(--secondary);
+        }
+
+        .rating-container input:checked + label:hover,
+        .rating-container input:checked ~ label:hover,
+        .rating-container label:hover ~ input:checked ~ label {
+            color: #f3d9b1;
+        }
+
+        /* Submit Button */
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(42, 61, 102, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(42, 61, 102, 0.4);
+        }
+
+        /* Reviews Display */
+        .reviews-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .review-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .review-card.verified::after {
+            content: '✓ Verified';
+            position: absolute;
+            top: 15px;
+            right: -25px;
+            background: var(--success);
+            color: white;
+            padding: 0.3rem 2.5rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transform: rotate(45deg);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .review-vehicle {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .review-rating {
+            color: var(--secondary);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .review-author {
+            font-weight: 500;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .review-content {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .container {
+                padding: 1.5rem;
+            }
+
+            .reviews-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="container">
+        <h1>Luxury Auto Reviews</h1>
+        <p class="tagline">Share your experience with the finest vehicles in the world</p>
+    </div>
+</header>
+
+<main class="container">
+    <section class="review-form-container">
+        <h2>Submit Your Review</h2>
+        <form id="reviewForm" class="review-form">
+            <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="vehicle">Vehicle Model</label>
+                <input type="text" id="vehicle" name="vehicle" required>
+            </div>
+
+            <div class="form-group">
+                <label>Your Rating</label>
+                <div class="rating-container">
+                    <input type="radio" id="star5" name="rating" value="5" required>
+                    <label for="star5" title="Excellent">★</label>
+                    <input type="radio" id="star4" name="rating" value="4">
+                    <label for="star4" title="Good">★</label>
+                    <input type="radio" id="star3" name="rating" value="3">
+                    <label for="star3" title="Average">★</label>
+                    <input type="radio" id="star2" name="rating" value="2">
+                    <label for="star2" title="Poor">★</label>
+                    <input type="radio" id="star1" name="rating" value="1">
+                    <label for="star1" title="Terrible">★</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="comments">Your Review</label>
+                <textarea id="comments" name="comments" required></textarea>
+            </div>
+
+            <button type="submit" class="btn">Submit Review</button>
+        </form>
+    </section>
+
+    <section class="reviews-section">
+        <h2>Recent Reviews</h2>
+        <div class="reviews-container" id="reviewsContainer">
+            <!-- Reviews will be dynamically inserted here -->
+            <div class="review-card verified">
+                <h3 class="review-vehicle">Porsche 911 Turbo S</h3>
+                <div class="review-rating">★★★★★</div>
+                <p class="review-author">By: Michael Johnson</p>
+                <p class="review-content">The acceleration is mind-blowing and the handling is razor-sharp. This car exceeds all expectations.</p>
+            </div>
+
+            <div class="review-card">
+                <h3 class="review-vehicle">Mercedes-Benz S-Class</h3>
+                <div class="review-rating">★★★★☆</div>
+                <p class="review-author">By: Sarah Williams</p>
+                <p class="review-content">The epitome of luxury. The interior is like a first-class cabin, though the infotainment could be more intuitive.</p>
+            </div>
+
+            <div class="review-card verified">
+                <h3 class="review-vehicle">BMW M5 Competition</h3>
+                <div class="review-rating">★★★★★</div>
+                <p class="review-author">By: David Chen</p>
+                <p class="review-content">Perfect balance of performance and practicality. The twin-turbo V8 is a masterpiece.</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script>
+    document.getElementById('reviewForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Get form values
+        const name = document.getElementById('name').value;
+        const vehicle = document.getElementById('vehicle').value;
+        const rating = document.querySelector('input[name="rating"]:checked').value;
+        const comments = document.getElementById('comments').value;
+
+        // Create new review card
+        const reviewCard = document.createElement('div');
+        reviewCard.className = 'review-card';
+        reviewCard.innerHTML = `
+            <h3 class="review-vehicle">${vehicle}</h3>
+            <div class="review-rating">${'★'.repeat(rating)}${'☆'.repeat(5 - rating)}</div>
+            <p class="review-author">By: ${name}</p>
+            <p class="review-content">${comments}</p>
+        `;
+
+        // Add to beginning of reviews container
+        document.getElementById('reviewsContainer').prepend(reviewCard);
+
+        // Reset form
+        this.reset();
+
+        // Show success message (you could implement a proper notification system)
+        alert('Thank you for your review!');
+    });
+</script>
+</body>
+</html>

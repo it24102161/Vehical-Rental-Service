@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Luxury Auto Reviews</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2a3d66;
+            --secondary: #d4b483;
+            --accent: #c1666b;
+            --light: #f8f5f2;
+            --dark: #1e1e24;
+            --success: #4c956c;
+            --warning: #f8961e;
+            --danger: #ef233c;
+            --border-radius: 8px;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.7;
+            color: var(--dark);
+            background-color: #f5f7fa;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), #1a2a4a);
+            color: white;
+            padding: 1.5rem 0;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: 2rem;
+            background: linear-gradient(to right, var(--secondary), #f3d9b1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .logout-btn {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .logout-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        /* Dashboard Layout */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 1.5rem;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            height: fit-content;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .sidebar-nav a:hover, .sidebar-nav a.active {
+            background: rgba(42, 61, 102, 0.1);
+            color: var(--primary);
+        }
+
+        .sidebar-nav i {
+            margin-right: 0.75rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-card h3 {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+        }
+
+        .stat-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .trend {
+            display: flex;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .trend.up {
+            color: var(--success);
+        }
+
+        .trend.down {
+            color: var(--danger);
+        }
+
+        .trend i {
+            margin-right: 0.3rem;
+        }
+
+        /* Reviews Table */
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            color: var(--primary);
+        }
+
+        .search-filter {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .search-box {
+            padding: 0.5rem 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            min-width: 250px;
+        }
+
+        .filter-select {
+            padding: 0.5rem;
+            border: 1px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            background: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--primary);
+            background: rgba(42, 61, 102, 0.05);
+        }
+
+        tr:hover {
+            background: rgba(42, 61, 102, 0.03);
+        }
+
+        .status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status.pending {
+            background: rgba(248, 150, 30, 0.1);
+            color: var(--warning);
+        }
+
+        .status.approved {
+            background: rgba(76, 149, 108, 0.1);
+            color: var(--success);
+        }
+
+        .status.rejected {
+            background: rgba(239, 35, 60, 0.1);
+            color: var(--danger);
+        }
+
+        .rating {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.5rem 0.75rem;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn i {
+            margin-right: 0.3rem;
+        }
+
+        .btn-sm {
+            padding: 0.35rem 0.5rem;
+            font-size: 0.75rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1e2c4d;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #3d7a57;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background: #e07e0d;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #d11a2d;
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: var(--dark);
+        }
+
+        .btn-secondary:hover {
+            background: #c7a46d;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .page-item {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .page-item.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .page-item:hover:not(.active) {
+            background: rgba(42, 61, 102, 0.1);
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+
+        .modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .search-filter {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-content">
+        <h1>Luxury Auto Reviews - Admin Panel</h1>
+        <button class="logout-btn">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+    </div>
+</header>
+
+<div class="container">
+    <div class="dashboard">
+        <aside class="sidebar">
+            <ul class="sidebar-nav">
+                <li>
+                    <a href="#" class="active">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-comment-alt"></i> Reviews
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-car"></i> Vehicles
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-users"></i> Users
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-chart-bar"></i> Analytics
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Reviews</h3>
+                    <div class="value">1,248</div>
+                    <div class="trend up">
+                        <i class="fas fa-arrow-up"></i> 12% from last month
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <h3>Pending Approval</h3>
+                    <div class="value">42</div>
+                    <div class="trend down">
+                        <i class="fas fa-arrow-down"></i> 5% from last week
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <h3>Verified Reviews</h3>
+                    <div class="value">856</div>
+                    <div class="trend up">
+                        <i class="fas fa-arrow-up"></i> 8% from last month
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <h3>Average Rating</h3>
+                    <div class="value">4.3</div>
+                    <div class="trend">
+                        <i class="fas fa-equals"></i> Same as last month
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Recent Reviews</h2>
+                    <div class="search-filter">
+                        <input type="text" class="search-box" placeholder="Search reviews...">
+                        <select class="filter-select">
+                            <option>All Status</option>
+                            <option>Pending</option>
+                            <option>Approved</option>
+                            <option>Rejected</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Vehicle</th>
+                            <th>Author</th>
+                            <th>Rating</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>#RV-1001</td>
+                            <td>Porsche 911 Turbo S</td>
+                            <td>Michael Johnson</td>
+                            <td class="rating">★★★★★</td>
+                            <td><span class="status approved">Approved</span></td>
+                            <td>2023-05-15</td>
+                            <td class="actions">
+                                <button class="btn btn-sm btn-primary">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                                <button class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#RV-1002</td>
+                            <td>Mercedes-Benz S-Class</td>
+                            <td>Sarah Williams</td>
+                            <td class="rating">★★★★☆</td>
+                            <td><span class="status approved">Approved</span></td>
+                            <td>2023-05-14</td>
+                            <td class="actions">
+                                <button class="btn btn-sm btn-primary">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                                <button class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#RV-1003</td>
+                            <td>BMW M5 Competition</td>
+                            <td>David Chen</td>
+                            <td class="rating">★★★★★</td>
+                            <td><span class="status approved">Approved</span></td>
+                            <td>2023-05-13</td>
+                            <td class="actions">
+                                <button class="btn btn-sm btn-primary">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                                <button class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#RV-1004</td>
+                            <td>Audi RS7</td>
+                            <td>Emma Rodriguez</td>
+                            <td class="rating">★★★☆☆</td>
+                            <td><span class="status pending">Pending</span></td>
+                            <td>2023-05-12</td>
+                            <td class="actions">
+                                <button class="btn btn-sm btn-primary">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                                <button class="btn btn-sm btn-success">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#RV-1005</td>
+                            <td>Lexus LC 500</td>
+                            <td>Robert Kim</td>
+                            <td class="rating">★★★★☆</td>
+                            <td><span class="status pending">Pending</span></td>
+                            <td>2023-05-11</td>
+                            <td class="actions">
+                                <button class="btn btn-sm btn-primary">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                                <button class="btn btn-sm btn-success">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#RV-1006</td>
+                            <td>Jaguar F-Type</td>
+                            <td>Olivia Smith</td>
+                            <td class="rating">★★☆☆☆</td>
+                            <td><span class="status rejected">Rejected</span></td>
+                            <td>2023-05-10</td>
+                            <td class="actions">
+                                <button class="btn btn-sm btn-primary">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                                <button class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="pagination">
+                        <div class="page-item active">1</div>
+                        <div class="page-item">2</div>
+                        <div class="page-item">3</div>
+                        <div class="page-item">...</div>
+                        <div class="page-item">10</div>
+                        <div class="page-item">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Review Detail Modal -->
+<div class="modal" id="reviewModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Review Details</h2>
+            <button class="close-btn">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label>Review ID</label>
+                <input type="text" value="#RV-1001" readonly>
+            </div>
+            <div class="form-group">
+                <label>Vehicle Model</label>
+                <input type="text" value="Porsche 911 Turbo S">
+            </div>
+            <div class="form-group">
+                <label>Author</label>
+                <input type="text" value="Michael Johnson">
+            </div>
+            <div class="form-group">
+                <label>Rating</label>
+                <select>
+                    <option>5 ★</option>
+                    <option>4 ★</option>
+                    <option>3 ★</option>
+                    <option>2 ★</option>
+                    <option>1 ★</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Status</label>
+                <select>
+                    <option>Approved</option>
+                    <option>Pending</option>
+                    <option>Rejected</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Review Content</label>
+                <textarea>The acceleration is mind-blowing and the handling is razor-sharp. This car exceeds all expectations.</textarea>
+            </div>
+            <div class="form-group">
+                <label>Verification Method (if verified)</label>
+                <input type="text" placeholder="Email, Phone, etc.">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary">Cancel</button>
+            <button class="btn btn-primary">Save Changes</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Simple modal toggle functionality
+    document.querySelectorAll('.btn-primary').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.getElementById('reviewModal').classList.add('active');
+        });
+    });
+
+    document.querySelector('.close-btn').addEventListener('click', () => {
+        document.getElementById('reviewModal').classList.remove('active');
+    });
+
+    document.querySelector('.btn-secondary').addEventListener('click', () => {
+        document.getElementById('reviewModal').classList.remove('active');
+    });
+
+    // Close modal when clicking outside
+    document.getElementById('reviewModal').addEventListener('click', (e) => {
+        if (e.target === document.getElementById('reviewModal')) {
+            document.getElementById('reviewModal').classList.remove('active');
+        }
+    });
+</script>
+</body>
+</html>
