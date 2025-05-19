@@ -1,0 +1,5 @@
+
+304c3091-cf95-4945-8a7f-dbaaf9b48456,admin,admin123,admin@example.com,1234567890,admin,ADMIN001
+646e322b-c765-4401-b33a-0f7cb5485531,kadiman,Kaadi1234,kadimangamge127@gmail.com,0704167563,12345678,2004-09-22,regular
+69af5285-1aca-44c6-b178-12ec5e278ec6,kaadi,12345678,kaadhigamage@gmail.com,0763209132,12345678,2025-05-19,regular
+1e69c9ea-7b4f-413b-8ba9-f0e2dcc1b514,dasun,12345678,dasun123@gmail.com,0704167563,12345678,2007-12-31,regular
