@@ -1,0 +1,107 @@
+/* General Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    padding-bottom: 70px; /* For footer */
+}
+
+.navbar-brand {
+    font-weight: 600;
+}
+
+/* Card Customization */
+.card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+/* Form Styles */
+.form-label {
+    font-weight: 500;
+}
+
+/* Button Customization */
+.btn {
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+}
+
+.btn-success {
+    background-color: #198754;
+}
+
+/* Vehicle Cards */
+.vehicle-card {
+    height: 100%;
+    transition: transform 0.2s;
+}
+
+.vehicle-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Vehicle Details */
+.vehicle-details {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+/* Dashboard */
+.quick-actions .btn {
+    margin-bottom: 10px;
+}
+
+/* Footer */
+footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Booking Form */
+#costEstimate {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+/* Admin Dashboard */
+.dashboard-card {
+    text-align: center;
+    padding: 20px;
+}
+
+.dashboard-card i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: #0d6efd;
+}
+
+/* Admin Panel */
+.admin-header {
+    background-color: #343a40;
+    color: white;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .card-deck {
+        display: block;
+    }
+
+    .card {
+        margin-bottom: 15px;
+    }
+}

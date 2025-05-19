@@ -1,0 +1,6 @@
+CAR-1746607583516,toyota,vitz,2000,1234,2333.0,false,sedan,4,automatic
+SUV-1746607664126,toyota,chr,2020,1233,4355.0,false,true,5,1233.0
+CAR-1746610229667,toyota,allion,2020,9876,5555.0,false,sedan,4,automatic
+SUV-1746611018320,honda,vezel,2018,5678,4678.0,true,true,5,3500.0
+CAR-1746731329212,BMW,520d,2019,4455,9860.0,false,sedan,4,automatic
+CAR-1746731371070,suzuki,alto,2022,6666,1200.0,true,coupe,4,automatic
